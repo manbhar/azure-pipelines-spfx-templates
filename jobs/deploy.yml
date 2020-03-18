@@ -55,7 +55,6 @@ jobs:
           displayName: Download SharePoint package (*.sppkg)
           inputs:
             buildType: current
-            artifactName: spfx-package
         ##########################################
         ## determine name of generated *.sppkg
         ##########################################
