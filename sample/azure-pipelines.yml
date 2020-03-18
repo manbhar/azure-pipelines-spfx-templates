@@ -7,7 +7,7 @@ resources:
   repositories:
   - repository: azure-pipelines-spfx-templates
     type: github
-    name: voitanos/azure-pipelines-spfx-templates
+    name: manbhar/azure-pipelines-spfx-templates
     endpoint: Manish-github
 
 variables:
