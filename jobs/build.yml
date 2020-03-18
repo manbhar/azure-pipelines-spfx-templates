@@ -89,8 +89,8 @@ jobs:
   #########################################
   ## Adding White Source Bolt in the Tool
   #########################################
- -  task: WhiteSource Bolt@20
-    displayName: 'Run EY WhiteSource Bolt '
+  - task: WhiteSource Bolt@20
+    displayName: 'Run EY WhiteSource Bolt'
   ##########################################
   ## publish *.sppkg as build artifact
   ##########################################
