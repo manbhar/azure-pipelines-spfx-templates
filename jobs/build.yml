@@ -85,9 +85,6 @@ jobs:
       echo "##vso[task.setvariable variable=SpPkgFileName;isOutput=true]${CMD_GET_SPPKG_NAME}"
     displayName: Get generated *.sppkg filename
     name: GetSharePointPackage
-
-  - task: WhiteSource Bolt@20
-  displayName: 'Run WhiteSource Bolt'
   ##########################################
   ## publish *.sppkg as build artifact
   ##########################################
