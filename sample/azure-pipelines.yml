@@ -30,7 +30,6 @@ stages:
 - stage: Deploy_Prod
   dependsOn:
     - Build
-    - Test
   jobs:
     - template: jobs/deploy.yml@azure-pipelines-spfx-templates
       parameters:
