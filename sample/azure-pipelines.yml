@@ -29,7 +29,7 @@ steps:
   ##########################################
   - script: npm ci
     displayName: Install dependencies (with NPM)
-    workingDirectory: '.'
+    workingDirectory: $(working_directory)
 
   ##########################################
   ## execute: gulp build
