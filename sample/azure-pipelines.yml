@@ -16,13 +16,9 @@ resources:
     endpoint: Manish-github
 
 variables:
-  - group: office365credentials
-  - name: node_version
-    value: '10.x'
-  - name: package_manager
-    value: 'npm'
-  - name: Working-directory
-    value: '.'
+  working_directory: '.'
+  
+  
 
 
 steps:
@@ -32,5 +28,5 @@ steps:
 - task: Npm@1
   inputs:
     command: 'ci'
-    workingDir: '${{ variables.working_directory }}' 
+    workingDir: $(working_directory)
 
