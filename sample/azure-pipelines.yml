@@ -25,10 +25,7 @@ steps:
 ## specify which node version to use
 ##########################################
 - task: UseNode@1
-  displayName: Set to Node.js ${{ variable.node_version }}
   inputs:
-  version: ${{ variables.node_version }}
-  condition: ne('${{ variables.node_version }}', '')
 
 ##########################################
 ## install npm
