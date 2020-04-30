@@ -29,6 +29,9 @@ jobs:
   ##########################################
   ## install PNPM if that is desired package manager
   ##########################################
+  - script: echo ${{ parameters.working_directory }}
+  displayName: 'Run a one-line script'
+
   - script: sudo npm install --global pnpm
     displayName: Install PNPM
     condition: eq('${{ parameters.package_manager }}', 'pnpm')
