@@ -22,7 +22,7 @@ steps:
   ## specify which node version to use
   ##########################################
   - task: UseNode@1
-    displayName: Set to Node.js 
+    displayName: Set to Node.js to 10.x Version
     inputs:
       version: '10.x'
     
@@ -31,6 +31,17 @@ steps:
   ##    package manager
   ##########################################
   - task: Npm@1
+    displayName: Install project Dependencies
     inputs:
       command: 'ci'
       workingDir: 'sample' 
+
+  ##########################################
+  ## execute: gulp build
+  ##########################################
+  - task: Gulp@1
+    displayName: SPFx build
+    inputs:
+      gulpFile: sample/gulpfile.js
+      workingDirectory: sample
+      targets: build
