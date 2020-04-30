@@ -32,5 +32,5 @@ steps:
   ##########################################
   - task: Npm@1
     inputs:
-    command: 'ci'
-    workingDir: 'sample' 
+      command: 'ci'
+      workingDir: 'sample' 
