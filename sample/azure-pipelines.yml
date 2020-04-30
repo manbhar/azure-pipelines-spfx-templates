@@ -17,22 +17,66 @@ variables:
   - name: package_manager
     value: 'npm'
 
+steps:
+  ##########################################
+  ## specify which node version to use
+  ##########################################
+  - task: UseNode@1
+    displayName: Set to Node.js ${{ parameters.node_version }}
+    inputs:
+      version: '10.x'
+    
+  ##########################################
+  ## install dependencies using specified
+  ##    package manager
+  ##########################################
+  - script: npm ci
+    displayName: Install dependencies (with NPM)
+    workingDirectory: 'sample'
+  
+  ##########################################
+  ## execute: gulp build
+  ##########################################
+  - task: Gulp@1
+    displayName: SPFx build
+    inputs:
+      gulpFile: ${{ parameters.working_directory }}/gulpfile.js
+      workingDirectory: ${{ parameters.working_directory }}
+      targets: build
+  ##########################################
+  ## execute: gulp bundle --ship
+  ##########################################
+  - task: Gulp@1
+    displayName: SPFx bundle (production)
+    inputs:
+      gulpFile: ${{ parameters.working_directory }}/gulpfile.js
+      workingDirectory: ${{ parameters.working_directory }}
+      targets: bundle
+      arguments: --ship
+  ##########################################
+  ## execute: gulp package-solution --ship
+  ##########################################
+  - task: Gulp@1
+    displayName: SPFx package solution (production)
+    inputs:
+      gulpFile: ${{ parameters.working_directory }}/gulpfile.js
+      workingDirectory: ${{ parameters.working_directory }}
+      targets: package-solution
+      arguments: --ship
+  ##########################################
+  ## determine name of generated *.sppkg
+  ##########################################
+  - script: |
+      CMD_GET_SPPKG_NAME=$(find . -name '*.sppkg' -exec basename {} \;)
+      echo "##vso[task.setvariable variable=SpPkgFileName;isOutput=true]${CMD_GET_SPPKG_NAME}"
+    displayName: Get generated *.sppkg filename
+    name: GetSharePointPackage
 
-
-stages:
-- stage: Build
-  dependsOn: []
-  jobs:
-    - template: jobs/build.yml@azure-pipelines-spfx-templates
-      parameters:
-        working_directory: sample
-        package_manager: ${{ variables.package_manager }}
-        node_version: ${{ variables.node_version }}
-- stage: Test
-  dependsOn: []
-  jobs:
-    - template: jobs/test.yml@azure-pipelines-spfx-templates
-      parameters:
-        working_directory: sample
-        package_manager: ${{ variables.package_manager }}
-        node_version: ${{ variables.node_version }}
+  ##########################################
+  ## publish *.sppkg as build artifact
+  ##########################################
+  - task: PublishPipelineArtifact@1
+    displayName: Publish SharePoint package (*.sppkg)
+    inputs:
+      targetPath: $(Build.Repository.LocalPath)/${{ parameters.working_directory }}/sharepoint/solution/$(GetSharePointPackage.SpPkgFileName)
+      artifact: spfx-package
