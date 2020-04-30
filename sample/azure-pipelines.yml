@@ -3,6 +3,11 @@ trigger:
     include:
       - '*'
 
+pool:
+  vmImage: 'ubuntu-16.04'
+  demands:
+  - npm
+
 resources:
   repositories:
   - repository: azure-pipelines-spfx-templates
