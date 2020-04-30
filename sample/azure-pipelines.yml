@@ -1,27 +1,36 @@
 trigger:
-- '*'
+  branches:
+    include:
+      - '*'
 
-pool:
-  vmImage: 'ubuntu-16.04'
-  demands:
-  - npm
+resources:
+  repositories:
+  - repository: azure-pipelines-spfx-templates
+    type: github
+    name: manbhar/azure-pipelines-spfx-templates
+    endpoint: Manish-github
 
 variables:
-  buildConfiguration: 'Release'
+  - group: office365credentials
+  - name: node_version
+    value: '10.x'
+  - name: package_manager
+    value: 'npm'
 
-steps:
-- task: Npm@1
-  displayName: 'Run npm install'
-  inputs:
-    verbose: false
-
-- task: UseNode@1
-  inputs:
-    versionSpec: '10.x'
-
-- task: Npm@1
-  inputs:
-    command: 'ci'
-    workingDir: '/sample'
-    
-
+stages:
+- stage: Build
+  dependsOn: []
+  jobs:
+    - template: jobs/build.yml@azure-pipelines-spfx-templates
+      parameters:
+        working_directory: sample
+        package_manager: ${{ variables.package_manager }}
+        node_version: ${{ variables.node_version }}
+- stage: Test
+  dependsOn: []
+  jobs:
+    - template: jobs/test.yml@azure-pipelines-spfx-templates
+      parameters:
+        working_directory: sample
+        package_manager: ${{ variables.package_manager }}
+        node_version: ${{ variables.node_version }}
