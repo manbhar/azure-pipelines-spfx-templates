@@ -50,7 +50,27 @@ steps:
   ##########################################
   - script: npm test
     displayName: Run unit tests from test script (with NPM)
-    workingDirectory: sample   
+    workingDirectory: sample
+
+  ##########################################
+  ## publish code coverage results to devops pipeline run
+  ##########################################
+  - task: PublishCodeCoverageResults@1
+    displayName: Publish code coverage results
+    inputs:
+      codeCoverageTool: cobertura
+      summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/*coverage.xml'
+      
+  ##########################################
+  ## publish junit test results to devops pipeline run
+  ##########################################
+  - task: PublishTestResults@2
+    displayName: Publish test results
+    inputs:
+      testResultsFormat: JUnit
+      testResultsFiles: '**/junit.xml'
+      failTaskOnFailedTests: true
+     
 
   ##########################################
   ## execute: gulp bundle --ship
