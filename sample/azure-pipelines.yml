@@ -28,7 +28,6 @@ steps:
     
   ##########################################
   ## install dependencies using specified
-  ##    package manager
   ##########################################
   - task: Npm@1
     displayName: Install project Dependencies
@@ -45,6 +44,13 @@ steps:
       gulpFile: sample/gulpfile.js
       workingDirectory: sample
       targets: build
+
+  ##########################################
+  ## execute tests
+  ##########################################
+  - script: npm test
+    displayName: Run unit tests from test script (with NPM)
+    workingDirectory: sample   
 
   ##########################################
   ## execute: gulp bundle --ship
