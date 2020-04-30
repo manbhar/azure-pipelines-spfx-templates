@@ -19,10 +19,8 @@ steps:
   inputs:
     versionSpec: '10.x'
 
-- task: Npm@1
-  inputs:
-    command: 'ci'
-    workingDir: '.'
-
+- script: npm ci
+    displayName: Install dependencies (with NPM)
+    workingDirectory: '.'
     
 
