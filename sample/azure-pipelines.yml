@@ -30,6 +30,7 @@ steps:
   ## install dependencies using specified
   ##    package manager
   ##########################################
-  - script: npm ci
-    displayName: Install dependencies (with NPM)
-    workingDirectory: 'sample'
+  - task: Npm@1
+    inputs:
+    command: 'ci'
+    workingDir: 'sample' 
