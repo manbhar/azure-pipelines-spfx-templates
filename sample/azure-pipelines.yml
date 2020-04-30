@@ -1,27 +1,19 @@
-trigger:
-  branches:
-    include:
-      - '*'
+ttrigger:
+- '*'
 
 pool:
   vmImage: 'ubuntu-16.04'
-
-resources:
-  repositories:
-  - repository: azure-pipelines-spfx-templates
-    type: github
-    name: manbhar/azure-pipelines-spfx-templates
-    endpoint: Manish-github
+  demands:
+  - npm
 
 variables:
-  working_directory: '.'
-  
+  buildConfiguration: 'Release'
+
 steps:
-##########################################
-## install dependencies using npm
-##########################################
 - task: Npm@1
+  displayName: 'Run npm install'
   inputs:
-    command: 'ci'
+    verbose: false
+
     
 
