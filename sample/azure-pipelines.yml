@@ -11,26 +11,31 @@ resources:
     endpoint: Manish-github
 
 variables:
-  - group: office365credentials
-  - name: node_version
-    value: '10.x'
-  - name: package_manager
-    value: 'npm'
+    working_directory: '.'
 
-stages:
-- stage: Build
-  dependsOn: []
-  jobs:
-    - template: jobs/build.yml@azure-pipelines-spfx-templates
-      parameters:
-        working_directory: sample
-        package_manager: ${{ variables.package_manager }}
-        node_version: ${{ variables.node_version }}
-- stage: Test
-  dependsOn: []
-  jobs:
-    - template: jobs/test.yml@azure-pipelines-spfx-templates
-      parameters:
-        working_directory: sample
-        package_manager: ${{ variables.package_manager }}
-        node_version: ${{ variables.node_version }}
+
+steps:
+  ##########################################
+  ## specify which node version to use
+  ##########################################
+  - task: UseNode@1
+    displayName: Set to Node.js 10.x 
+    inputs:
+      version: '10.x'
+    
+  ##########################################
+  ## install dependencies using specified
+  ##    package manager
+  ##########################################
+  - script: npm ci
+    displayName: Install dependencies (with NPM)
+    workingDirectory: '.'
+
+  ##########################################
+  ## execute: gulp build
+  ##########################################
+  - task: Gulp@1
+    displayName: SPFx build
+    inputs:
+      gulpFile: $(working_directory)/gulpfile.js
+      workingDirectory: $(working_directory)
