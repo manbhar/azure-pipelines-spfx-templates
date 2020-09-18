@@ -29,6 +29,8 @@ jobs:
   ##########################################
   ## install PNPM if that is desired package manager
   ##########################################
+  - bash: echo "${{ parameters.working_directory }}"
+
   - script: sudo npm install --global pnpm
     displayName: Install PNPM
     condition: eq('${{ parameters.package_manager }}', 'pnpm')
@@ -86,11 +88,6 @@ jobs:
     displayName: Get generated *.sppkg filename
     name: GetSharePointPackage
 
-  #########################################
-  ## Adding White Source Bolt in the Tool
-  #########################################
-  - task: WhiteSource Bolt@20
-    displayName: 'Run EY WhiteSource Bolt'
   ##########################################
   ## publish *.sppkg as build artifact
   ##########################################
